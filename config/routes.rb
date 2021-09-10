@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # get 'users/new' as: 'signup'
+
   root 'static_pages#home'
   
   # get 'static_pages/home'
@@ -11,5 +13,8 @@ Rails.application.routes.draw do
 
   # get 'static_pages/contact'
   get '/contact', to: 'static_pages#contact'
+
+  # signupで書き換え
+  get '/signup', to: 'users#new'
 
 end
