@@ -17,4 +17,7 @@ Rails.application.routes.draw do
   # signupで書き換え
   get '/signup', to: 'users#new'
 
+  # users/1みたいなgetリクエストを実現する手段
+  resources :users
+
 end
