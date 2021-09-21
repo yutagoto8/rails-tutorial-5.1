@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     # @user = User.new(params[:user]) これだと脆弱性があるため使えない
     @user = User.new(user_params)
     if @user.save
-      # 保存成功時の処理
+      log_in @user
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
     else
