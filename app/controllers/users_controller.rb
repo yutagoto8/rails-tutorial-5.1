@@ -45,6 +45,7 @@ class UsersController < ApplicationController
     # ログインしていないとログイン画面にリダイレクトされる処理
     def logged_in_user
       unless logged_in?
+        store_location # URLを記憶するメソッド(自己定義)
         flash[:danger] = "Please log in."
         redirect_to login_url
       end
