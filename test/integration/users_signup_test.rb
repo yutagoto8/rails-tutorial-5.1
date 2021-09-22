@@ -4,7 +4,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 
   test "invalid signup information" do
     get signup_path # signupページへのパス
-    assert_select 'form[action="/signup"]' # urlが違ったらエラーになるテスト
+    # action="/signup"を共通化に伴い変更(自己判断)
+    assert_select 'form[action="/users"]' # urlが違ったらエラーになるテスト
     assert_no_difference 'User.count' do
       post signup_path, params: { user: {
          name: "", 
