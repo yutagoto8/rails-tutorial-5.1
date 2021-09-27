@@ -27,4 +27,5 @@ Rails.application.routes.draw do
   # users/1みたいなgetリクエストを実現する手段
   resources :users
 
+  resources :account_activations, only: [:edit]
 end
