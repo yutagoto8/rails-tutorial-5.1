@@ -26,6 +26,5 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   # users/1みたいなgetリクエストを実現する手段
   resources :users
-
   resources :account_activations, only: [:edit]
 end
