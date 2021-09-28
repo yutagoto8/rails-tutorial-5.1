@@ -43,27 +43,32 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
-    # アカウントを有効にする
-    def activate
-      update_columns(activated: true, activated_at: Time.zone.now)
-    end
+  # アカウントを有効にする
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
   
-    # 有効化用のメールを送信する
-    def send_activation_email
-      UserMailer.account_activation(self).deliver_now
-    end
+  # 有効化用のメールを送信する
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
 
-    # パスワード再設定の属性を設定する
-    def create_reset_digest
-      self.reset_token = User.new_token
-      update_attribute(:reset_digest,  User.digest(reset_token))
-      update_attribute(:reset_sent_at, Time.zone.now)
-    end
+  # パスワード再設定の属性を設定する
+  def create_reset_digest
+    self.reset_token = User.new_token
+    # update_attribute(:reset_digest,  User.digest(reset_token))
+    # update_attribute(:reset_sent_at, Time.zone.now)
+    update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
+  end
 
-    # パスワード再設定のメールを送信する
-    def send_password_reset_email
-      UserMailer.password_reset(self).deliver_now
-    end
+  # パスワード再設定のメールを送信する
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
 
   private
   # メールアドレスをすべて小文字に変換(リファクタリング)
@@ -72,8 +77,8 @@ class User < ApplicationRecord
   end
 
   # DBに直接残らないがtokenを生成し、それをハッシュ化したダイジェストを作成
-    def create_activation_digest
-      self.activation_token  = User.new_token
-      self.activation_digest = User.digest(activation_token)
-    end
+  def create_activation_digest
+    self.activation_token  = User.new_token
+    self.activation_digest = User.digest(activation_token)
+  end
 end
