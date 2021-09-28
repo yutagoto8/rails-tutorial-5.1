@@ -19,7 +19,8 @@ class UsersController < ApplicationController
       # flash[:success] = "Welcome to the Sample App!"
       # redirect_to @user
       # 上記のやつは有効化なくいきなり使えるようにしている
-      UserMailer.account_activation(@user).deliver_now
+      @user.send_activation_email
+      # UserMailer.account_activation(@user).deliver_now
       flash[:info] = "Please check your email to activate your account."
       redirect_to root_url
     else
