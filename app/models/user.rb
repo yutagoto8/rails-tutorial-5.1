@@ -71,6 +71,11 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  # 14章でやる
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   private
   # メールアドレスをすべて小文字に変換(リファクタリング)
   def downcase_email
